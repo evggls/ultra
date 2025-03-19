@@ -1,0 +1,44 @@
+services:
+  nginx:
+    build: 
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - 8888:8888
+    volumes:
+      - ./shop-api:/var/www/shop-api
+      - .docker/nginx/shop.conf:/etc/nginx/conf.d/shop.conf:ro
+    networks:
+      - default
+      - infrastructure
+  php-fpm:
+    build: 
+      context: .
+      dockerfile: .docker/php-fpm/Dockerfile
+    volumes:
+      - ./shop-api:/var/www/shop-api
+    networks:
+      - default
+      - infrastructure
+  db:
+    image: mariadb:latest
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: shop_db
+      MYSQL_USER: shop
+      MYSQL_PASSWORD: 12345
+    ports:
+      - "3306:3306"
+    volumes:
+      - .docker/mariadb/data:/var/lib/mysql
+    networks:
+      - infrastructure
+  
+networks:
+  infrastructure:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/16

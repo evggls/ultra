@@ -1,0 +1,8 @@
+/vendor/
+/var/
+/node_modules/
+/.env
+/shop-api/vendor
+/shop-api/var
+/shop-api/.env
+/.docker/mariadb/data
