@@ -27,10 +27,6 @@
                 'status' => 'created',
                 'timestamp' => time(),
             ];
-    
-            // $this->producer->send('order_events', $payload);
-    
-            // $output->writeln('✔️ Message sent to Kafka');
 
             $conf = new Conf();
             $conf->set('metadata.broker.list', 'kafka:9092');

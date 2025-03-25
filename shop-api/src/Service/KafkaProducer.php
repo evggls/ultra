@@ -10,7 +10,6 @@
             $config = [
                 'global' => [
                     'metadata.broker.list' => 'kafka:9092',
-                    'group.id' => ''
                 ],
             ];
     
