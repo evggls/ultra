@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Service\AccountValidationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,7 +11,8 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UserController extends AbstractController
 {
     public function __construct(
-        private readonly UserRepository $userRepository
+        private readonly UserRepository         $userRepository,
+        private readonly AccountValidationService $accountValidationService,
     )
     {
     }
@@ -34,5 +36,14 @@ final class UserController extends AbstractController
                 ]
             ],
         ]);
+    }
+
+    #[Route('/api/user/validate/{token}', name: 'validate-user', methods: ['PATCH'])]
+    public function validateUser(string $token = ''): JsonResponse
+    {
+        $token = trim($token);
+        $result = $this->accountValidationService->validateAccount($token);
+
+        return $this->json($result, $result['code'] ?? 500);
     }
 }
