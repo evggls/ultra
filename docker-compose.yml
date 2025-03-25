@@ -1,5 +1,6 @@
 services:
   nginx:
+    container_name: webserver
     build: 
       context: .docker/nginx
       dockerfile: Dockerfile
@@ -12,9 +13,10 @@ services:
       - default
       - infrastructure
   php-fpm:
+    container_name: shop-api
     build: 
       context: .
-      dockerfile: .docker/php-fpm/Dockerfile
+      dockerfile: .docker/php-fpm/shop-api/Dockerfile
     volumes:
       - ./shop-api:/var/www/shop-api
     networks:
