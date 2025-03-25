@@ -25,14 +25,14 @@ RUN apk del .build-deps
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY .docker/php-fpm/shop-api/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
 
 COPY .docker/php-fpm/shop-api/php.ini /usr/local/etc/php/conf.d/php.ini
 
 COPY ./shop-api/ /var/www/shop-api
-COPY ./shop-api/.env.example /var/www/shop-api/.env
 
 RUN composer install
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD ["php-fpm"]
