@@ -31,6 +31,7 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 COPY .docker/php-fpm/shop-api/php.ini /usr/local/etc/php/conf.d/php.ini
 
 COPY ./shop-api/ /var/www/shop-api
+COPY ./shop-api/.env.example /var/www/shop-api/.env
 
 RUN composer install
 
